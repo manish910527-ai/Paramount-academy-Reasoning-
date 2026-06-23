@@ -19,7 +19,7 @@
         /* Login Screen */
         #login-screen { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; margin-top: 30px; border-top: 5px solid #002147; }
         .input-box { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
-        .btn-primary { background-color: #002147; color: white; padding: 12px 25px; font-size: 18px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 15px; }
+        .btn-primary { background-color: #002147; color: white; padding: 12px 25px; font-size: 18px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 15px; transition: 0.3s; }
         .btn-primary:hover { background-color: #003366; }
 
         /* Dashboard (60 Days Grid) */
@@ -32,7 +32,7 @@
 
         /* Quiz Screen */
         #quiz-screen { display: none; }
-        .back-btn { background: #d32f2f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 15px; display: inline-block; }
+        .back-btn { background: #d32f2f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 15px; display: inline-block; transition: 0.3s; }
         .question-box { background: white; padding: 15px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-left: 5px solid #002147; }
         .question-text { font-size: 18px; font-weight: bold; color: #222; margin-bottom: 15px; line-height: 1.4; }
         .option { display: block; padding: 12px; margin-bottom: 10px; background: #e9ecef; border-radius: 5px; cursor: pointer; font-size: 16px; border: 1px solid #ccc; transition: 0.2s; }
@@ -42,17 +42,16 @@
         .option.wrong { background-color: #f8d7da; border-color: #dc3545; color: #721c24; font-weight: bold; }
         
         .exam-tag { display: inline-block; background-color: #ffe0b2; color: #e65100; padding: 5px 10px; font-size: 12px; font-weight: bold; border-radius: 4px; margin-top: 10px; }
-        .submit-btn { background-color: #2e7d32; color: white; padding: 15px; width: 100%; font-size: 18px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .submit-btn { background-color: #2e7d32; color: white; padding: 15px; width: 100%; font-size: 18px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
         
-        /* Result Box */
+        /* Result Box & Status */
         .result-box { display: none; background: #fff3cd; color: #856404; padding: 20px; border-radius: 8px; border: 2px solid #ffeeba; text-align: center; margin-bottom: 20px; font-size: 18px; font-weight: bold; }
-        
-        /* Loading Status */
-        #loading-status { text-align: center; font-weight: bold; color: #d32f2f; margin-bottom: 15px; display: none; }
+        #loading-status { text-align: center; font-weight: bold; color: #d32f2f; margin-bottom: 15px; display: none; background: #ffebee; padding: 10px; border-radius: 5px; }
     </style>
 </head>
 <body>
 
+    <!-- Professional Header -->
     <div class="header">
         <h1>Paramount Academy, Khandwa</h1>
         <h3>1000+ Previous Years Questions | Smart Solution</h3>
@@ -61,6 +60,7 @@
 
     <div class="container">
         
+        <!-- 1. Login Screen -->
         <div id="login-screen">
             <h2 style="color: #002147;">👨‍🎓 स्टूडेंट लॉगिन</h2>
             <p style="color: #666; margin-bottom: 20px;">टेस्ट शुरू करने के लिए अपना विवरण दर्ज करें</p>
@@ -69,18 +69,22 @@
             <button class="btn-primary" onclick="studentLogin()">लॉगिन करें (Login)</button>
         </div>
 
+        <!-- 2. Dashboard Screen (Day 1 to 60) -->
         <div id="dashboard-screen">
             <div class="user-welcome" id="welcome-msg"></div>
             <div id="loading-status">🔄 डेटा लोड हो रहा है, कृपया प्रतीक्षा करें...</div>
             <h3 style="text-align: center; color: #d32f2f; margin-bottom: 20px;">📝 60 Days Master Plan - Select Day</h3>
             <div class="grid-container" id="days-grid">
-                </div>
+                <!-- Javascript will generate Day 1 to 60 here -->
+            </div>
         </div>
 
+        <!-- 3. Quiz Screen -->
         <div id="quiz-screen">
             <button class="back-btn" onclick="showDashboard()">⬅ वापस जाएँ</button>
             <h2 id="quiz-title" style="text-align: center; color: #002147; border-bottom: 2px solid #ccc; padding-bottom: 10px;"></h2>
             
+            <!-- Result Alert Box -->
             <div id="result-box" class="result-box"></div>
 
             <div id="quiz-container">
@@ -91,13 +95,16 @@
     </div>
 
 <script>
-    // आपका नया Google Apps Script URL
+    // आपका Google Apps Script URL
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwrn1KhBZO055DnDoMjl4L-_MR41X3zGy-IHlsW6Tt8MQfzNnXFWnHYprtaH1E4AdJhmA/exec";
     
+    // Cache-Busting: URL में हर बार नया नंबर जोड़ें ताकि ब्राउज़र पुराना डेटा न दिखाए
+    const getFetchUrl = () => SHEET_API_URL + "?nocache=" + new Date().getTime();
+
     let allQuestionsData = [];
     let currentQuizDay = "";
 
-    // पेज लोड होते ही चेक करें कि बच्चा पहले से लॉगिन है या नहीं
+    // पेज लोड होते ही लॉगिन चेक करें
     window.onload = function() {
         let savedName = localStorage.getItem("paramountStudentName");
         if(savedName) {
@@ -119,7 +126,7 @@
             return;
         }
 
-        // फोन की मेमोरी में सेव करें
+        // मेमोरी में सेव करें
         localStorage.setItem("paramountStudentName", name);
         localStorage.setItem("paramountStudentMobile", mobile);
 
@@ -131,7 +138,7 @@
         fetchAllQuestions();
     }
 
-    // Day 1 से 60 तक ग्रिड बनाना
+    // Day 1 से 60 का ग्रिड
     function generateDaysGrid() {
         let grid = document.getElementById("days-grid");
         grid.innerHTML = "";
@@ -145,31 +152,32 @@
         }
     }
 
-    // डैशबोर्ड पर वापस जाना
+    // डैशबोर्ड पर लौटना
     function showDashboard() {
         document.getElementById("quiz-screen").style.display = "none";
         document.getElementById("dashboard-screen").style.display = "block";
         document.getElementById("result-box").style.display = "none";
     }
 
-    // Google Sheet से प्रश्न मँगाना
+    // Google Sheet से प्रश्न लोड करना (बिना कैश के)
     function fetchAllQuestions() {
         let loadingText = document.getElementById("loading-status");
         loadingText.style.display = "block";
 
-        fetch(SHEET_API_URL)
+        // cache: "no-store" यह पक्का करता है कि ब्राउज़र पुराना डेटा इस्तेमाल न करे
+        fetch(getFetchUrl(), { cache: "no-store" })
             .then(response => response.json())
             .then(data => { 
                 allQuestionsData = data; 
-                loadingText.style.display = "none"; // लोड होने के बाद मैसेज छुपा दें
+                loadingText.style.display = "none"; 
             })
             .catch(err => {
                 loadingText.innerText = "❌ डेटा लोड करने में समस्या आई। कृपया इंटरनेट चेक करें।";
-                console.log("डेटा लोड करने में समस्या: ", err);
+                console.log("Error Fetching Data: ", err);
             });
     }
 
-    // किसी भी Day का टेस्ट खोलना
+    // टेस्ट स्क्रीन खोलना
     function openQuiz(dayName) {
         currentQuizDay = dayName;
         document.getElementById("dashboard-screen").style.display = "none";
@@ -211,7 +219,7 @@
         container.innerHTML += `<button class="submit-btn" id="submit-btn" onclick="submitTest()">टेस्ट सबमिट करें</button>`;
     }
 
-    // टेस्ट सबमिट और स्मार्ट सॉल्यूशन
+    // सबमिट लॉजिक और स्मार्ट सॉल्यूशन
     function submitTest() {
         let name = localStorage.getItem("paramountStudentName");
         let mobile = localStorage.getItem("paramountStudentMobile");
@@ -222,12 +230,12 @@
         let wrong = 0;
         let attempted = 0;
 
-        // हर प्रश्न चेक करना और स्मार्ट सॉल्यूशन (रंग) दिखाना
+        // सही/गलत की पहचान और रंग बदलना
         dayQuestions.forEach((q, index) => {
             let selectedRadio = document.querySelector(`input[name="q${index}"]:checked`);
-            let correctAns = q.Answer ? q.Answer.trim().toUpperCase() : ""; // Sheet से सही उत्तर
+            let correctAns = q.Answer ? q.Answer.trim().toUpperCase() : ""; 
 
-            // सभी ऑप्शंस को लॉक (disable) करें
+            // ऑप्शंस को लॉक (disable) करें
             let radios = document.querySelectorAll(`input[name="q${index}"]`);
             radios.forEach(r => r.disabled = true);
 
@@ -242,7 +250,7 @@
                     correct++;
                 } else {
                     wrong++;
-                    // अगर गलत चुना है, तो उसे लाल (Red) करें
+                    // गलत चुने गए उत्तर को लाल (Red) करें
                     let wrongLabel = document.getElementById(`lbl-${selectedVal}-${index}`);
                     if(wrongLabel) wrongLabel.classList.add("wrong");
                 }
@@ -264,10 +272,9 @@
             <span style="font-size: 14px; color: #666;">(नीचे देखें, सही उत्तर हरे रंग में हैं)</span>
         `;
 
-        // सबमिट बटन छुपाएं
         document.getElementById("submit-btn").style.display = "none";
 
-        // डेटा गूगल शीट में भेजना
+        // डेटा शीट में भेजना (POST request कभी कैश नहीं होती, इसलिए मूल URL का इस्तेमाल किया है)
         let resultData = {
             name: name,
             mobile: mobile,
@@ -278,9 +285,9 @@
         fetch(SHEET_API_URL, {
             method: "POST",
             body: JSON.stringify(resultData)
-        }).catch(err => console.log("डेटा शीट में भेजने में एरर: ", err));
+        }).catch(err => console.log("Error Submitting Data: ", err));
 
-        // बच्चे को अलर्ट दें और स्क्रीन ऊपर करें
+        // स्क्रीन को ऊपर खिसकाएं ताकि रिज़ल्ट तुरंत दिखे
         window.scrollTo(0, 0); 
     }
 </script>
