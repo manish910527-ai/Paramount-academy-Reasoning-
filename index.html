@@ -46,11 +46,13 @@
         
         /* Result Box */
         .result-box { display: none; background: #fff3cd; color: #856404; padding: 20px; border-radius: 8px; border: 2px solid #ffeeba; text-align: center; margin-bottom: 20px; font-size: 18px; font-weight: bold; }
+        
+        /* Loading Status */
+        #loading-status { text-align: center; font-weight: bold; color: #d32f2f; margin-bottom: 15px; display: none; }
     </style>
 </head>
 <body>
 
-    <!-- Professional Header -->
     <div class="header">
         <h1>Paramount Academy, Khandwa</h1>
         <h3>1000+ Previous Years Questions | Smart Solution</h3>
@@ -59,7 +61,6 @@
 
     <div class="container">
         
-        <!-- 1. Login Screen -->
         <div id="login-screen">
             <h2 style="color: #002147;">👨‍🎓 स्टूडेंट लॉगिन</h2>
             <p style="color: #666; margin-bottom: 20px;">टेस्ट शुरू करने के लिए अपना विवरण दर्ज करें</p>
@@ -68,21 +69,18 @@
             <button class="btn-primary" onclick="studentLogin()">लॉगिन करें (Login)</button>
         </div>
 
-        <!-- 2. Dashboard Screen (Day 1 to 60) -->
         <div id="dashboard-screen">
             <div class="user-welcome" id="welcome-msg"></div>
+            <div id="loading-status">🔄 डेटा लोड हो रहा है, कृपया प्रतीक्षा करें...</div>
             <h3 style="text-align: center; color: #d32f2f; margin-bottom: 20px;">📝 60 Days Master Plan - Select Day</h3>
             <div class="grid-container" id="days-grid">
-                <!-- Javascript will generate Day 1 to 60 here -->
-            </div>
+                </div>
         </div>
 
-        <!-- 3. Quiz Screen -->
         <div id="quiz-screen">
             <button class="back-btn" onclick="showDashboard()">⬅ वापस जाएँ</button>
             <h2 id="quiz-title" style="text-align: center; color: #002147; border-bottom: 2px solid #ccc; padding-bottom: 10px;"></h2>
             
-            <!-- Result Alert Box -->
             <div id="result-box" class="result-box"></div>
 
             <div id="quiz-container">
@@ -93,8 +91,8 @@
     </div>
 
 <script>
-    // आपका Google Apps Script URL
-    const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbxa7RsSqE3KWGiK-Bxk7G93hh6mP-8-2rG4evJdAYj437iW4eZkD0iCjhzVzUQODfMxpA/exec";
+    // आपका नया Google Apps Script URL
+    const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwrn1KhBZO055DnDoMjl4L-_MR41X3zGy-IHlsW6Tt8MQfzNnXFWnHYprtaH1E4AdJhmA/exec";
     
     let allQuestionsData = [];
     let currentQuizDay = "";
@@ -133,7 +131,7 @@
         fetchAllQuestions();
     }
 
-    // Day 1 से 60 तक ग्रिड बनाना (ऑटोमैटिक)
+    // Day 1 से 60 तक ग्रिड बनाना
     function generateDaysGrid() {
         let grid = document.getElementById("days-grid");
         grid.innerHTML = "";
@@ -151,15 +149,24 @@
     function showDashboard() {
         document.getElementById("quiz-screen").style.display = "none";
         document.getElementById("dashboard-screen").style.display = "block";
-        document.getElementById("result-box").style.display = "none"; // रिज़ल्ट बॉक्स छुपाएं
+        document.getElementById("result-box").style.display = "none";
     }
 
-    // Google Sheet से सारे प्रश्न मँगाना
+    // Google Sheet से प्रश्न मँगाना
     function fetchAllQuestions() {
+        let loadingText = document.getElementById("loading-status");
+        loadingText.style.display = "block";
+
         fetch(SHEET_API_URL)
             .then(response => response.json())
-            .then(data => { allQuestionsData = data; })
-            .catch(err => console.log("डेटा लोड करने में समस्या: ", err));
+            .then(data => { 
+                allQuestionsData = data; 
+                loadingText.style.display = "none"; // लोड होने के बाद मैसेज छुपा दें
+            })
+            .catch(err => {
+                loadingText.innerText = "❌ डेटा लोड करने में समस्या आई। कृपया इंटरनेट चेक करें।";
+                console.log("डेटा लोड करने में समस्या: ", err);
+            });
     }
 
     // किसी भी Day का टेस्ट खोलना
@@ -173,7 +180,7 @@
         let container = document.getElementById('quiz-container');
         
         if(allQuestionsData.length === 0) {
-            container.innerHTML = "<p style='text-align:center; color:red; font-weight:bold;'>डेटा लोड हो रहा है, कृपया 2-3 सेकंड रुककर दोबारा खोलें...</p>";
+            container.innerHTML = "<p style='text-align:center; color:red; font-weight:bold;'>डेटा अभी लोड हो रहा है, कृपया 2-3 सेकंड रुककर दोबारा खोलें...</p>";
             return;
         }
 
@@ -204,7 +211,7 @@
         container.innerHTML += `<button class="submit-btn" id="submit-btn" onclick="submitTest()">टेस्ट सबमिट करें</button>`;
     }
 
-    // टेस्ट सबमिट और स्मार्ट सॉल्यूशन लॉजिक
+    // टेस्ट सबमिट और स्मार्ट सॉल्यूशन
     function submitTest() {
         let name = localStorage.getItem("paramountStudentName");
         let mobile = localStorage.getItem("paramountStudentMobile");
@@ -218,9 +225,9 @@
         // हर प्रश्न चेक करना और स्मार्ट सॉल्यूशन (रंग) दिखाना
         dayQuestions.forEach((q, index) => {
             let selectedRadio = document.querySelector(`input[name="q${index}"]:checked`);
-            let correctAns = q.Answer.trim().toUpperCase(); // Sheet से सही उत्तर
+            let correctAns = q.Answer ? q.Answer.trim().toUpperCase() : ""; // Sheet से सही उत्तर
 
-            // सभी ऑप्शंस को लॉक (disable) करें ताकि बच्चा बदल न सके
+            // सभी ऑप्शंस को लॉक (disable) करें
             let radios = document.querySelectorAll(`input[name="q${index}"]`);
             radios.forEach(r => r.disabled = true);
 
@@ -273,8 +280,8 @@
             body: JSON.stringify(resultData)
         }).catch(err => console.log("डेटा शीट में भेजने में एरर: ", err));
 
-        // बच्चे को अलर्ट भी दें
-        window.scrollTo(0, 0); // पेज को ऊपर खिसकाएं ताकि रिज़ल्ट दिखे
+        // बच्चे को अलर्ट दें और स्क्रीन ऊपर करें
+        window.scrollTo(0, 0); 
     }
 </script>
 
