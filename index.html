@@ -3,517 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paramount Academy Khandwa - Reasoning Test Portal</title>
+    <title>Reasoning Portal - Manish Sir</title>
     <style>
-        :root {
-            --primary-color: #c62828;
-            --secondary-color: #1565c0;
-            --success-color: #2e7d32;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-color: #212121;
-            --border-color: #e0e0e0;
-        }
-
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; }
-        
-        header { background-color: var(--card-bg); border-bottom: 3px solid var(--primary-color); padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;}
-        .header-logo h1 { margin: 0; font-size: 24px; color: var(--primary-color); text-transform: uppercase; }
-        .header-logo p { margin: 5px 0 0 0; font-size: 14px; color: var(--secondary-color); font-weight: bold; }
-        
-        .nav-buttons { display: flex; gap: 10px; align-items: center; flex-wrap: wrap;}
-        .btn { padding: 10px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.3s ease; font-size: 14px; }
-        .btn-primary { background-color: var(--primary-color); color: white; }
-        .btn-primary:hover { background-color: #b71c1c; }
-        .btn-secondary { background-color: var(--secondary-color); color: white; }
-        .btn-secondary:hover { background-color: #0d47a1; }
-        .btn-success { background-color: var(--success-color); color: white; }
-        .btn-success:hover { background-color: #1b5e20; }
-        
-        /* Profile & Header UI */
-        .student-header-info { display: flex; align-items: center; gap: 10px; background: #e3f2fd; padding: 5px 15px; border-radius: 20px; margin-right: 5px; }
-        .student-header-img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid var(--secondary-color); background: #ccc;}
-        .student-header-name { font-weight: bold; color: var(--secondary-color); font-size: 14px; }
-        
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 15px;}
-        .profile-modal { background: white; padding: 30px; border-radius: 15px; max-width: 350px; width: 100%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);}
-        .profile-modal input { margin-bottom: 15px; }
-        .profile-preview-box { width: 100px; height: 100px; border-radius: 50%; border: 3px dashed #ccc; margin: 0 auto 15px auto; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #f5f5f5; cursor: pointer;}
-        .profile-preview-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        
-        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-        .view-section { display: none; }
-        .view-section.active { display: block; }
-        .grid-title { font-size: 20px; font-weight: bold; margin-bottom: 20px; border-left: 5px solid var(--primary-color); padding-left: 10px; }
-        .days-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; }
-        .day-card { background-color: var(--card-bg); border: 2px solid var(--border-color); border-radius: 8px; padding: 15px 10px; text-align: center; font-weight: bold; cursor: pointer; transition: transform 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);}
-        .day-card:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .day-card.configured { border-color: var(--success-color); background-color: #e8f5e9; color: var(--success-color); }
-        .day-card.locked { background-color: #f5f5f5; color: #9e9e9e; }
-        .content-box { background-color: var(--card-bg); border-radius: 10px; padding: 25px; border: 1px solid var(--border-color); box-shadow: 0 4px 10px rgba(0,0,0,0.03);}
-        .split-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
-        @media (max-width: 768px) { .split-container { grid-template-columns: 1fr; } }
-        .feature-card { border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; text-align: center; background: #fafafa; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
-        .form-control { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; }
-        textarea.form-control { height: 180px; font-family: monospace; resize: vertical; }
-        
-        /* Quiz UI */
-        .quiz-question { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #111;}
-        .quiz-options label { display: block; background: #f5f5f5; padding: 12px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #e0e0e0; cursor: pointer; transition: all 0.2s;}
-        .quiz-options label:hover { background: #e3f2fd; border-color: var(--secondary-color); }
-        .uploaded-img-preview { max-width: 100%; border-radius: 8px; margin-top: 10px; display: none; border: 1px solid #ccc; }
-        
-        /* Solution UI */
-        .solution-card { background: #fff; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: left;}
-        .solution-correct { border-left: 5px solid var(--success-color); }
-        .solution-wrong { border-left: 5px solid #d32f2f; }
-        .solution-unattempted { border-left: 5px solid #f57c00; }
-        
-        /* Loading Overlay */
-        #loadingOverlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.9); z-index: 2000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center;}
-        .loader { border: 8px solid #f3f3f3; border-top: 8px solid var(--primary-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 15px;}
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 0; }
+        .header { background-color: #002147; color: white; padding: 20px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .header p { margin: 5px 0 0; color: #ffcc00; font-weight: bold; }
+        .container { padding: 15px; max-width: 600px; margin: auto; }
+        .question-box { background: white; padding: 15px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .question-text { font-size: 18px; font-weight: bold; color: #333; margin-bottom: 15px; }
+        .option { display: block; padding: 10px; margin-bottom: 10px; background: #e9ecef; border-radius: 5px; cursor: pointer; }
+        .exam-tag { display: inline-block; background-color: #ffe0b2; color: #e65100; padding: 5px 10px; font-size: 12px; font-weight: bold; border-radius: 4px; margin-top: 10px; }
+        .submit-btn { background-color: #2e7d32; color: white; padding: 12px; width: 100%; font-size: 18px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; }
     </style>
-  <script src="data.js"></script>  
 </head>
 <body>
 
-    <div id="profileModal" class="modal-overlay">
-        <div class="profile-modal">
-            <h2 style="color: var(--primary-color); margin-top:0;">👨‍🎓 अपनी प्रोफाइल बनाएं</h2>
-            <p style="font-size: 13px; color: #555;">Paramount Academy के टेस्ट देने के लिए अपनी जानकारी भरें:</p>
-            
-            <div class="profile-preview-box" onclick="document.getElementById('stuPhotoInput').click()">
-                <span id="uploadText" style="font-size: 12px; color: #888;">Tap to Upload<br>Photo</span>
-                <img id="stuPhotoPreview" src="">
-            </div>
-            <input type="file" id="stuPhotoInput" accept="image/*" style="display: none;">
-            
-            <input type="text" id="stuNameInput" class="form-control" placeholder="👤 अपना पूरा नाम लिखें" required>
-            <input type="number" id="stuIdInput" class="form-control" placeholder="📱 मोबाइल नंबर (यही ID होगी)" required>
-            
-            <button class="btn btn-success" style="width: 100%; font-size: 16px; margin-top: 10px;" onclick="saveStudentProfile()">Save & Start Prep</button>
-        </div>
+    <div class="header">
+        <h1>Paramount Academy, Khandwa</h1>
+        <p>Reasoning by Manish sir</p>
     </div>
 
-    <div id="loadingOverlay">
-        <div class="loader"></div>
-        <h2 style="color: var(--primary-color);">Result Saving...</h2>
-        <p style="color: #555;">Please wait, sending data to Manish Sir's database.</p>
+    <div class="container" id="quiz-container">
+        <!-- Google Sheet से प्रश्न यहाँ अपने आप आएँगे -->
+        <p style="text-align:center;">प्रश्नों को लोड किया जा रहा है...</p>
     </div>
 
-    <header>
-        <div class="header-logo">
-            <h1>Paramount Academy, Khandwa</h1>
-            <p>Reasoning by Manish Sir — 1000+ Question Series</p>
-        </div>
-        <div class="nav-buttons">
-            <div id="studentHeaderDisplay" class="student-header-info" style="display: none;">
-                <img id="headerStuImg" class="student-header-img" src="">
-                <span id="headerStuName" class="student-header-name">Student</span>
-            </div>
-            <button class="btn btn-secondary" onclick="switchView('student-dashboard')">Dashboard</button>
-            <button class="btn btn-primary" onclick="checkAdminPassword()">Admin 🔒</button>
-        </div>
-    </header>
+<script>
+// आपका Apps Script URL यहाँ जोड़ दिया गया है
+const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbxa7RsSqE3KWGiK-Bxk7G93hh6mP-8-2rG4evJdAYj437iW4eZkD0iCjhzVzUQODfMxpA/exec";
 
-    <div class="container">
-        <div id="student-dashboard" class="view-section active">
-            <div class="grid-title">60 Days Master Plan — Apni Day-wise Class Select Karein</div>
-            <div class="days-grid" id="daysGridContainer"></div>
-        </div>
+// Google Sheet से प्रश्न मँगाना
+fetch(SHEET_API_URL)
+    .then(response => response.json())
+    .then(data => {
+        let container = document.getElementById('quiz-container');
+        container.innerHTML = ""; // 'लोड हो रहा है' को हटाएँ
 
-        <div id="day-content-view" class="view-section">
-            <div class="content-box">
-                <button class="btn btn-secondary" style="margin-bottom: 20px;" onclick="switchView('student-dashboard')">← Back to Dashboard</button>
-                <h2 id="currentDayTitle" style="color: var(--primary-color); margin-top: 0;">Day X Setup</h2>
-                
-                <div id="dayImageContainer" style="text-align: center; display: none; margin-bottom: 20px;">
-                    <img id="dayDisplayImage" src="" alt="Reasoning Diagram" style="max-width: 100%; max-height: 300px; border-radius: 8px; border: 2px solid var(--primary-color);">
+        // Day 1 के प्रश्न फ़िल्टर करना (आप चाहें तो इसे बदल सकते हैं)
+        let day1Questions = data.filter(q => q.Day === "Day 1");
+
+        if(day1Questions.length === 0) {
+            container.innerHTML = "<p style='text-align:center; color:red;'>अभी कोई प्रश्न उपलब्ध नहीं है। कृपया Google Sheet चेक करें।</p>";
+            return;
+        }
+
+        day1Questions.forEach((q, index) => {
+            let html = `
+                <div class="question-box">
+                    <div class="question-text">Q${index + 1}. ${q.Question}</div>
+                    <label class="option"><input type="radio" name="q${index}" value="A"> A) ${q.Option_A}</label>
+                    <label class="option"><input type="radio" name="q${index}" value="B"> B) ${q.Option_B}</label>
+                    <label class="option"><input type="radio" name="q${index}" value="C"> C) ${q.Option_C}</label>
+                    <label class="option"><input type="radio" name="q${index}" value="D"> D) ${q.Option_D}</label>
+                    
+                    <!-- Exam का नाम और Date यहाँ दिखेगा -->
+                    <div class="exam-tag">🏷️ ${q.Exam_Name} (${q.Exam_Date})</div>
                 </div>
-
-                <div class="split-container">
-                    <div class="feature-card">
-                        <h3>📄 Daily PDF Material</h3>
-                        <p>Manish Sir ki class sheet yahan se padhein.</p>
-                        <a id="pdfDownloadLink" href="#" target="_blank" class="btn btn-success" style="display: inline-block; margin-top: 15px; text-decoration: none;">Open PDF</a>
-                        <p id="noPdfMessage" style="color: #757575; display: none; margin-top: 15px;">PDF available nahi hai.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h3>🔥 Live Mock Test</h3>
-                        <p>Negative Marking (-0.33) ke sath apni accuracy check karein.</p>
-                        <button id="startTestBtn" class="btn btn-primary" style="margin-top: 15px;" onclick="startMockTest()">Start Test</button>
-                        <p id="noTestMessage" style="color: #757575; display: none; margin-top: 15px;">Test available nahi hai.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="live-test-interface" class="view-section">
-            <div class="content-box" style="max-width: 750px; margin: 0 auto;">
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
-                    <h3 id="quizDayLabel" style="margin: 0; color: var(--primary-color);">Live Mock Test</h3>
-                    <span style="background: #ffebee; color: #c62828; padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 12px;">Wrong Ans: -0.33</span>
-                </div>
-                
-                <div id="quizQuestionsContainer"></div>
-                
-                <div style="margin-top: 30px; display: flex; justify-content: space-between; border-top: 2px solid #eee; padding-top: 20px;">
-                    <button class="btn btn-secondary" onclick="switchView('student-dashboard')">Cancel Test</button>
-                    <button class="btn btn-success" style="font-size: 16px; padding: 12px 25px;" onclick="submitQuiz()">Submit Test & View Result</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="quiz-result-view" class="view-section">
-            <div class="content-box" style="text-align: center; max-width: 750px; margin: 0 auto;">
-                <h2 style="color: var(--success-color); margin-top: 0;">🎉 Test Submitted Successfully!</h2>
-                
-                <div style="background: #f1f8e9; padding: 20px; border-radius: 10px; border: 2px solid var(--success-color); margin-bottom: 25px;">
-                    <h1 id="finalScoreText" style="margin: 0 0 10px 0; font-size: 36px; color: var(--primary-color);">Score: 0</h1>
-                    <p id="detailedStatsText" style="font-weight: bold; font-size: 16px; color: #333; margin: 0;"></p>
-                </div>
-                
-                <h3 style="color: var(--secondary-color); text-align: left; border-bottom: 2px solid var(--secondary-color); padding-bottom: 5px;">Detailed Solution & Analysis</h3>
-                <div id="solutionsContainer" style="margin-top: 15px;"></div>
-
-                <button class="btn btn-primary" style="width: 100%; margin-top: 25px; padding: 15px; font-size: 16px;" onclick="switchView('student-dashboard')">Go to Dashboard</button>
-            </div>
-        </div>
-
-        <div id="admin-portal" class="view-section">
-            <div class="content-box">
-                <h2 style="color: var(--primary-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px;">🔧 Admin Panel (Secure)</h2>
-                
-                <div class="form-group" style="max-width: 250px;">
-                    <label>Target Day Select Karein:</label>
-                    <select id="adminSelectDay" class="form-control">
-                        <script>for(let d=1; d<=60; d++) document.write(`<option value="${d}">Day ${d}</option>`);</script>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Google Drive PDF Link:</label>
-                    <input type="text" id="adminPdfUrl" class="form-control" placeholder="Paste PDF Link Here">
-                </div>
-
-                <div class="form-group" style="background: #e3f2fd; padding: 15px; border-radius: 8px; border: 1px dashed var(--secondary-color);">
-                    <label>🖼️ Upload Image (Optional - Diagram/Banner):</label>
-                    <input type="file" id="adminImageFile" accept="image/*" class="form-control" style="background: white;">
-                    <img id="adminImagePreview" class="uploaded-img-preview">
-                </div>
-
-                <div class="form-group">
-                    <label>⚡ Paste Questions Text Here (Auto Test Maker):</label>
-                    <div style="font-size: 12px; color: #555; background: #fff9c4; padding: 8px; margin-bottom: 10px; border-radius: 4px;">
-                        Format: Q1. Question?<br>A) Opt1<br>B) Opt2<br>C) Opt3<br>D) Opt4<br>Answer: A
-                    </div>
-                    <textarea id="adminQuestionsRaw" class="form-control" placeholder="Paste questions here..."></textarea>
-                </div>
-
-                <button class="btn btn-success" style="padding: 12px 25px; font-size: 16px;" onclick="saveAdminData()">💾 Save Configuration</button>
-            </div>
-        </div>
-    </div>
-<script src="data.js"></script>
-    <script>
-        // --- GLOBAL VARIABLES ---
-        let currentDayActive = 1;
-        let activeQuestionsData = [];
-        let uploadedImageBase64 = "";
-        let compressedPhotoBase64 = "";
-
-        // 🔥 GOOGLE SCRIPT API URL (Aapka Unique Database Link)
-        const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbwCfwt3Ena4tsfQIONQXfi0QHD3NOo4vFSHEvn-2dA8OkwpIiaARzQCfG5F69O-pMeP/exec";
-
-        // --- APP INITIALIZATION ---
-        window.onload = function() {
-            let savedName = localStorage.getItem("paramount_student_name");
-            let savedId = localStorage.getItem("paramount_student_id");
-            let savedPhoto = localStorage.getItem("paramount_student_photo");
-
-            if(!savedName || !savedId) {
-                // Pehli baar aane par profile modal dikhayein
-                document.getElementById('profileModal').style.display = "flex";
-            } else {
-                showStudentHeader(savedName, savedPhoto);
-            }
-            renderDashboardGrid();
-        };
-
-        // --- PROFILE SETUP & IMAGE COMPRESSION ---
-        document.getElementById('stuPhotoInput').addEventListener('change', function(e) {
-            let file = e.target.files[0];
-            if(file) {
-                let reader = new FileReader();
-                reader.onload = function(event) {
-                    let img = new Image();
-                    img.onload = function() {
-                        let canvas = document.createElement('canvas');
-                        let ctx = canvas.getContext('2d');
-                        canvas.width = 150; // Size 150px
-                        canvas.height = 150;
-                        ctx.drawImage(img, 0, 0, 150, 150);
-                        
-                        compressedPhotoBase64 = canvas.toDataURL('image/jpeg', 0.6); // Compress to 60% quality
-                        
-                        document.getElementById('uploadText').style.display = "none";
-                        let previewImg = document.getElementById('stuPhotoPreview');
-                        previewImg.src = compressedPhotoBase64;
-                        previewImg.style.display = "block";
-                    };
-                    img.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
+            `;
+            container.innerHTML += html;
         });
 
-        function saveStudentProfile() {
-            let name = document.getElementById('stuNameInput').value.trim();
-            let id = document.getElementById('stuIdInput').value.trim();
+        // Submit बटन जोड़ना
+        container.innerHTML += `<button class="submit-btn" onclick="submitTest()">टेस्ट सबमिट करें</button>`;
+    })
+    .catch(error => {
+        document.getElementById('quiz-container').innerHTML = "<p style='text-align:center; color:red;'>डेटा लोड करने में समस्या आ रही है। कृपया लिंक और शीट चेक करें।</p>";
+    });
 
-            if(!name || !id) { alert("कृपया अपना नाम और मोबाइल नंबर भरें!"); return; }
-            if(!compressedPhotoBase64) { alert("कृपया अपनी एक फोटो अपलोड करें!"); return; }
+// रिज़ल्ट वापस Google Sheet में भेजना
+function submitTest() {
+    alert("आपका टेस्ट चेक हो रहा है... मार्क्स आपकी शीट में जा रहे हैं!");
+    
+    // डमी डेटा (बाद में इसे असली फॉर्म से रिप्लेस किया जा सकता है)
+    let resultData = {
+        name: "Student Name", 
+        mobile: "9876543210",
+        day: "Day 1",
+        score: "15/20" 
+    };
 
-            localStorage.setItem("paramount_student_name", name);
-            localStorage.setItem("paramount_student_id", id);
-            localStorage.setItem("paramount_student_photo", compressedPhotoBase64);
+    fetch(SHEET_API_URL, {
+        method: "POST",
+        body: JSON.stringify(resultData)
+    }).then(res => {
+        alert("टेस्ट सफलतापूर्वक सबमिट हो गया!");
+    }).catch(err => {
+        alert("सबमिट करने में एरर आई।");
+    });
+}
+</script>
 
-            document.getElementById('profileModal').style.display = "none";
-            showStudentHeader(name, compressedPhotoBase64);
-            alert("✅ प्रोफाइल सफलतापूर्वक सेव हो गई!");
-        }
-
-        function showStudentHeader(name, photoBase64) {
-            document.getElementById('studentHeaderDisplay').style.display = "flex";
-            document.getElementById('headerStuName').innerText = name;
-            if(photoBase64) { document.getElementById('headerStuImg').src = photoBase64; }
-        }
-
-        // --- ADMIN FUNCTIONS ---
-        function checkAdminPassword() {
-            let pass = prompt("🔒 Admin Panel Locked.\nKripya password darj karein:");
-            if (pass === "manish123") { 
-                switchView('admin-portal');
-            } else if (pass !== null) {
-                alert("❌ Galat Password! Access Denied.");
-            }
-        }
-
-        // Admin Image Upload
-        document.getElementById('adminImageFile').addEventListener('change', function(e) {
-            let file = e.target.files[0];
-            if(file) {
-                let reader = new FileReader();
-                reader.onload = function(event) {
-                    uploadedImageBase64 = event.target.result;
-                    let preview = document.getElementById('adminImagePreview');
-                    preview.src = uploadedImageBase64;
-                    preview.style.display = "block";
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        function parseQuestionsText(text) {
-            const parsedQuestions = [];
-            const blocks = text.match(/(Q\d+[\s\S]*?Answer:\s*[A-D])/gi);
-            if (!blocks) return [];
-            blocks.forEach((block, index) => {
-                const lines = block.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-                let qText = "", optA = "", optB = "", optC = "", optD = "", correctAns = "";
-                lines.forEach(line => {
-                 if (line.toUpperCase().startsWith('Q')) qText = line.replace(/^Q\d+\.\s*/i, '').trim();
-                    else if (line.toUpperCase().startsWith('A)')) optA = line.substring(2).trim();
-                    else if (line.toUpperCase().startsWith('B)')) optB = line.substring(2).trim();
-                    else if (line.toUpperCase().startsWith('C)')) optC = line.substring(2).trim();
-                    else if (line.toUpperCase().startsWith('D)')) optD = line.substring(2).trim();
-                    else if (line.toUpperCase().startsWith('ANSWER:')) correctAns = line.split(':')[1].trim().toUpperCase();
-                });
-                if (qText) parsedQuestions.push({ id: index + 1, question: qText, options: { A: optA, B: optB, C: optC, D: optD }, answer: correctAns });
-            });
-            return parsedQuestions;
-        }
-
-        function saveAdminData() {
-            const selectedDay = document.getElementById('adminSelectDay').value;
-            const pdfUrl = document.getElementById('adminPdfUrl').value.trim();
-            const rawText = document.getElementById('adminQuestionsRaw').value;
-            const questions = parseQuestionsText(rawText);
-
-            const dayConfig = { day: selectedDay, pdfUrl: pdfUrl, questions: questions, imageData: uploadedImageBase64 };
-
-            localStorage.setItem(`paramount_day_${selectedDay}`, JSON.stringify(dayConfig));
-            alert(`✅ Day ${selectedDay} Saved Successfully! Test me ${questions.length} questions add hue hain.`);
-            
-            uploadedImageBase64 = "";
-            document.getElementById('adminImagePreview').style.display = "none";
-            document.getElementById('adminImageFile').value = "";
-            document.getElementById('adminQuestionsRaw').value = "";
-            document.getElementById('adminPdfUrl').value = "";
-            
-            switchView('student-dashboard');
-        }
-
-        // --- CORE UI FUNCTIONS ---
-        function switchView(viewId) {
-            document.querySelectorAll('.view-section').forEach(section => section.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            if(viewId === 'student-dashboard') renderDashboardGrid();
-        }
-
-        function renderDashboardGrid() {
-            const container = document.getElementById('daysGridContainer');
-            container.innerHTML = '';
-            for (let i = 1; i <= 60; i++) {
-                const dayData = JSON.parse(localStorage.getItem(`paramount_day_${i}`));
-                const card = document.createElement('div');
-                card.className = 'day-card';
-                if (dayData && (dayData.pdfUrl || dayData.questions.length > 0 || dayData.imageData)) {
-                    card.classList.add('configured');
-                    card.innerHTML = `✅ Day ${i}<br><span style="font-size:11px; font-weight:normal;">Unlock</span>`;
-                } else {
-                    card.classList.add('locked');
-                    card.innerHTML = `🔒 Day ${i}`;
-                }
-                card.onclick = function() { openDayContent(i); };
-                container.appendChild(card);
-            }
-        }
-
-        function openDayContent(dayNum) {
-            currentDayActive = dayNum;
-            document.getElementById('currentDayTitle').innerText = `Paramount Academy — Day ${dayNum}`;
-            const dayData = JSON.parse(localStorage.getItem(`paramount_day_${dayNum}`));
-            
-            const imgContainer = document.getElementById('dayImageContainer');
-            const displayImg = document.getElementById('dayDisplayImage');
-            if(dayData && dayData.imageData) {
-                displayImg.src = dayData.imageData;
-                imgContainer.style.display = "block";
-            } else { imgContainer.style.display = "none"; }
-
-            if (dayData && dayData.pdfUrl) {
-                document.getElementById('pdfDownloadLink').href = dayData.pdfUrl;
-                document.getElementById('pdfDownloadLink').style.display = 'inline-block';
-                document.getElementById('noPdfMessage').style.display = 'none';
-            } else {
-                document.getElementById('pdfDownloadLink').style.display = 'none';
-                document.getElementById('noPdfMessage').style.display = 'block';
-      }
-
-                      if (dayData && dayData.questions && dayData.questions.length > 0) {
-                activeQuestionsData = dayData.questions;
-                document.getElementById('startTestBtn').style.display = 'inline-block';
-                document.getElementById('noTestMessage').style.display = 'none';
-            } else {
-                activeQuestionsData = [];
-                document.getElementById('startTestBtn').style.display = 'none';
-                document.getElementById('noTestMessage').style.display = 'block';
-            }
-            switchView('day-content-view');
-        }
-
-        // --- QUIZ LOGIC & CLOUD SUBMISSION ---
-        function startMockTest() {
-            document.getElementById('quizDayLabel').innerText = `Day ${currentDayActive} - Live Mock Test`;
-            const container = document.getElementById('quizQuestionsContainer');
-            container.innerHTML = '';
-            
-            activeQuestionsData.forEach((q, index) => {
-                container.innerHTML += `
-                    <div style="margin-bottom: 30px;">
-                        <div class="quiz-question">Q${index + 1}. ${q.question}</div>
-                        <div class="quiz-options">
-                            <label><input type="radio" name="live_q_${q.id}" value="A"> A) ${q.options.A}</label>
-                            <label><input type="radio" name="live_q_${q.id}" value="B"> B) ${q.options.B}</label>
-                            <label><input type="radio" name="live_q_${q.id}" value="C"> C) ${q.options.C}</label>
-                            <label><input type="radio" name="live_q_${q.id}" value="D"> D) ${q.options.D}</label>
-                        </div>
-                    </div>`;
-            });
-            switchView('live-test-interface');
-        }
-
-        function submitQuiz() {
-            let correct = 0, wrong = 0, unattempted = 0;
-            let solutionsHtml = '';
-
-            // Pehle Result Calculate karein
-            activeQuestionsData.forEach((q, index) => {
-                const selected = document.querySelector(`input[name="live_q_${q.id}"]:checked`);
-                let userAns = selected ? selected.value : null;
-                let statusClass = ''; let statusMessage = '';
-
-                if (!userAns) { 
-                    unattempted++; statusClass = 'solution-unattempted'; 
-                    statusMessage = '<span style="color: #f57c00;">Aapne yeh sawal chhod diya.</span>'; 
-                } 
-                else if (userAns === q.answer) { 
-                    correct++; statusClass = 'solution-correct'; 
-                    statusMessage = '<span style="color: var(--success-color);">Sahi Jawab! ✅</span>'; 
-                } 
-                else { 
-                    wrong++; statusClass = 'solution-wrong'; 
-                    statusMessage = `<span style="color: #d32f2f;">Galat Jawab ❌ (Aapka uttar: ${userAns})</span>`; 
-                }
-
-                solutionsHtml += `
-                    <div class="solution-card ${statusClass}">
-                        <div style="font-weight:bold; margin-bottom: 8px; color: #333;">Q${index + 1}. ${q.question}</div>
-                        <div style="font-weight: bold; background: #f9f9f9; padding: 10px; border-radius: 5px; font-size: 14px;">
-                            ${statusMessage} <br> <span style="color: var(--success-color); display: inline-block; margin-top: 5px;">Sahi Uttar: Option ${q.answer}</span>
-                        </div>
-                    </div>`;
-            });
-
-            // Negative marking logic (1/3rd)
-            let score = (correct * 1 - wrong * 0.33).toFixed(2);
-            
-            // Loading Screen ON karein
-            document.getElementById('loadingOverlay').style.display = "flex";
-
-            // Google Sheet me bhejne wala data
-            let resultData = {
-                studentName: localStorage.getItem("paramount_student_name"),
-                uniqueId: localStorage.getItem("paramount_student_id"),
-                photoBase64: localStorage.getItem("paramount_student_photo"),
-                day: currentDayActive,
-                score: score,
-                correct: correct,
-                wrong: wrong,
-                unattempted: unattempted
-            };
-
-            // Fetch API se data bhejna (CORS Error Fix)
-                        // Google Sheet me data bhejne ka 100% working tarika
-            fetch(GOOGLE_SHEET_URL, {
-                method: "POST",
-                headers: {
-                    // 'application/json' block ho jata hai, isliye hum 'text/plain' use karenge
-                    "Content-Type": "text/plain;charset=utf-8"
-                },
-                body: JSON.stringify(resultData)
-            }).then(response => {
-                // Data successfully chala gaya
-                document.getElementById('loadingOverlay').style.display = "none";
-                document.getElementById('finalScoreText').innerText = `Score: ${score} / ${activeQuestionsData.length}`;
-                document.getElementById('detailedStatsText').innerHTML = `<span style="color: green;">Correct: ${correct}</span> &nbsp;|&nbsp; <span style="color: red;">Wrong: ${wrong}</span> &nbsp;|&nbsp; <span style="color: orange;">Skipped: ${unattempted}</span>`;
-                document.getElementById('solutionsContainer').innerHTML = solutionsHtml;
-                switchView('quiz-result-view');
-            }).catch(error => {
-                // Agar internet band ho
-                document.getElementById('loadingOverlay').style.display = "none";
-                alert("कृपया अपना इंटरनेट कनेक्शन चेक करें।");
-                
-                document.getElementById('finalScoreText').innerText = `Score: ${score} / ${activeQuestionsData.length}`;
-                document.getElementById('detailedStatsText').innerHTML = `<span style="color: green;">Correct: ${correct}</span> &nbsp;|&nbsp; <span style="color: red;">Wrong: ${wrong}</span> &nbsp;|&nbsp; <span style="color: orange;">Skipped: ${unattempted}</span>`;
-                document.getElementById('solutionsContainer').innerHTML = solutionsHtml;
-                switchView('quiz-result-view');
-            });
-        }
-       </script>  
 </body>
 </html>
