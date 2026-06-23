@@ -17,8 +17,7 @@
         #login-screen { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; margin-top: 30px; border-top: 5px solid #002147; }
         .input-box { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
         .btn-primary { background-color: #002147; color: white; padding: 12px 25px; font-size: 18px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 15px; transition: 0.3s; }
-        .btn-primary:hover { background-color: #003366; }
-
+        
         /* Dashboard */
         #dashboard-screen { display: none; }
         .user-welcome { font-size: 18px; font-weight: bold; color: #002147; margin-bottom: 20px; text-align: center; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -29,14 +28,14 @@
 
         /* Quiz Screen */
         #quiz-screen { display: none; }
-        .back-btn { background: #d32f2f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 15px; display: inline-block; transition: 0.3s; }
+        .back-btn { background: #d32f2f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 15px; display: inline-block; }
         .question-box { background: white; padding: 15px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-left: 5px solid #002147; }
         .question-text { font-size: 18px; font-weight: bold; color: #222; margin-bottom: 15px; line-height: 1.4; }
-        .option { display: block; padding: 12px; margin-bottom: 10px; background: #e9ecef; border-radius: 5px; cursor: pointer; font-size: 16px; border: 1px solid #ccc; transition: 0.2s; }
+        .option { display: block; padding: 12px; margin-bottom: 10px; background: #e9ecef; border-radius: 5px; cursor: pointer; font-size: 16px; border: 1px solid #ccc; }
         .option.correct { background-color: #d4edda; border-color: #28a745; color: #155724; font-weight: bold; }
         .option.wrong { background-color: #f8d7da; border-color: #dc3545; color: #721c24; font-weight: bold; }
         .exam-tag { display: inline-block; background-color: #ffe0b2; color: #e65100; padding: 5px 10px; font-size: 12px; font-weight: bold; border-radius: 4px; margin-top: 10px; }
-        .submit-btn { background-color: #2e7d32; color: white; padding: 15px; width: 100%; font-size: 18px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .submit-btn { background-color: #2e7d32; color: white; padding: 15px; width: 100%; font-size: 18px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; }
         .result-box { display: none; background: #fff3cd; color: #856404; padding: 20px; border-radius: 8px; border: 2px solid #ffeeba; text-align: center; margin-bottom: 20px; font-size: 18px; font-weight: bold; }
         #loading-status { text-align: center; font-weight: bold; color: #d32f2f; margin-bottom: 15px; display: none; background: #ffebee; padding: 10px; border-radius: 5px; }
     </style>
@@ -50,8 +49,6 @@
     </div>
 
     <div class="container">
-        
-        <!-- 1. Login Screen -->
         <div id="login-screen">
             <h2 style="color: #002147;">👨‍🎓 स्टूडेंट लॉगिन</h2>
             <p style="color: #666; margin-bottom: 20px;">टेस्ट शुरू करने के लिए अपना विवरण दर्ज करें</p>
@@ -60,7 +57,6 @@
             <button class="btn-primary" onclick="studentLogin()">लॉगिन करें (Login)</button>
         </div>
 
-        <!-- 2. Dashboard Screen -->
         <div id="dashboard-screen">
             <div class="user-welcome" id="welcome-msg"></div>
             <div id="loading-status">🔄 डेटा लोड हो रहा है, कृपया प्रतीक्षा करें...</div>
@@ -68,29 +64,30 @@
             <div class="grid-container" id="days-grid"></div>
         </div>
 
-        <!-- 3. Quiz Screen -->
         <div id="quiz-screen">
             <button class="back-btn" onclick="showDashboard()">⬅ वापस जाएँ</button>
             <h2 id="quiz-title" style="text-align: center; color: #002147; border-bottom: 2px solid #ccc; padding-bottom: 10px;"></h2>
-            
             <div id="result-box" class="result-box"></div>
-
             <div id="quiz-container">
                 <p style="text-align:center; font-size: 18px; color: #666;">प्रश्नों को लोड किया जा रहा है...</p>
             </div>
         </div>
-
     </div>
 
 <script>
-    // आपका नया और एकदम सही Apps Script URL
+    // आपका सही और वर्किंग Apps Script URL
     const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzFO_JwU4sxnS-5g-v305B4gIKkDn4aBPbyUXukEJGUPONlNVpsZOZTHHHVN5qMxJpHmA/exec";
-    
-    // Cache-Busting तकनीक ताकि हमेशा ताज़ा डेटा आए
     const getFetchUrl = () => SHEET_API_URL + "?nocache=" + new Date().getTime();
 
     let allQuestionsData = [];
     let currentQuizDay = "";
+
+    // 🌟 SMART HELPER: यह फंक्शन शीट के हेडिंग्स के स्पेस और छोटे-बड़े अक्षरों की गलतियों को खत्म करता है
+    function getPropValue(obj, propName) {
+        if (!obj) return "";
+        let correctKey = Object.keys(obj).find(k => k.trim().toLowerCase() === propName.toLowerCase().trim());
+        return correctKey ? obj[correctKey] : "";
+    }
 
     window.onload = function() {
         let savedName = localStorage.getItem("paramountStudentName");
@@ -153,8 +150,8 @@
                 loadingText.style.display = "none"; 
             })
             .catch(err => {
-                loadingText.innerText = "❌ डेटा लोड करने में समस्या आई। कृपया इंटरनेट चेक करें।";
-                console.log("Error Fetching Data: ", err);
+                loadingText.innerText = "❌ डेटा लोड करने में समस्या आई।";
+                console.error("Fetch Error: ", err);
             });
     }
 
@@ -167,13 +164,16 @@
         
         let container = document.getElementById('quiz-container');
         
-        if(allQuestionsData.length === 0) {
+        if(!allQuestionsData || allQuestionsData.length === 0) {
             container.innerHTML = "<p style='text-align:center; color:red; font-weight:bold;'>डेटा अभी लोड हो रहा है, कृपया 2 सेकंड रुककर दोबारा खोलें...</p>";
             return;
         }
 
-        // .trim() स्पेस की गलतियों को अपने आप सुधार लेगा
-        let dayQuestions = allQuestionsData.filter(q => q.Day && q.Day.toString().trim() === dayName.trim());
+        // स्मार्ट फ़िल्टर हेल्पर का उपयोग करके Day मैच करना
+        let dayQuestions = allQuestionsData.filter(q => {
+            let dayVal = getPropValue(q, "Day");
+            return dayVal && dayVal.toString().trim().toLowerCase() === dayName.trim().toLowerCase();
+        });
 
         if(dayQuestions.length === 0) {
             container.innerHTML = `<p style='text-align:center; color:red; font-size:18px;'>अभी <b>${dayName}</b> के प्रश्न अपलोड नहीं हुए हैं। कृपया बाद में चेक करें।</p>`;
@@ -182,15 +182,23 @@
 
         container.innerHTML = "";
         dayQuestions.forEach((q, index) => {
+            let questionText = getPropValue(q, "Question");
+            let optA = getPropValue(q, "Option_A");
+            let optB = getPropValue(q, "Option_B");
+            let optC = getPropValue(q, "Option_C");
+            let optD = getPropValue(q, "Option_D");
+            let examName = getPropValue(q, "Exam_Name") || 'PYQ';
+            let examDate = getPropValue(q, "Exam_Date") || 'Previous Year';
+
             let html = `
                 <div class="question-box" id="qbox-${index}">
-                    <div class="question-text">Q${index + 1}. ${q.Question}</div>
-                    <label class="option" id="lbl-A-${index}"><input type="radio" name="q${index}" value="A"> (A) ${q.Option_A}</label>
-                    <label class="option" id="lbl-B-${index}"><input type="radio" name="q${index}" value="B"> (B) ${q.Option_B}</label>
-                    <label class="option" id="lbl-C-${index}"><input type="radio" name="q${index}" value="C"> (C) ${q.Option_C}</label>
-                    <label class="option" id="lbl-D-${index}"><input type="radio" name="q${index}" value="D"> (D) ${q.Option_D}</label>
+                    <div class="question-text">Q${index + 1}. ${questionText}</div>
+                    <label class="option" id="lbl-A-${index}"><input type="radio" name="q${index}" value="A"> (A) ${optA}</label>
+                    <label class="option" id="lbl-B-${index}"><input type="radio" name="q${index}" value="B"> (B) ${optB}</label>
+                    <label class="option" id="lbl-C-${index}"><input type="radio" name="q${index}" value="C"> (C) ${optC}</label>
+                    <label class="option" id="lbl-D-${index}"><input type="radio" name="q${index}" value="D"> (D) ${optD}</label>
                     
-                    <div class="exam-tag">🏷️ ${q.Exam_Name || 'PYQ'} (${q.Exam_Date || 'Previous Year'})</div>
+                    <div class="exam-tag">🏷️ ${examName} (${examDate})</div>
                 </div>
             `;
             container.innerHTML += html;
@@ -203,7 +211,11 @@
         let name = localStorage.getItem("paramountStudentName");
         let mobile = localStorage.getItem("paramountStudentMobile");
         
-        let dayQuestions = allQuestionsData.filter(q => q.Day && q.Day.toString().trim() === currentQuizDay.trim());
+        let dayQuestions = allQuestionsData.filter(q => {
+            let dayVal = getPropValue(q, "Day");
+            return dayVal && dayVal.toString().trim().toLowerCase() === currentQuizDay.trim().toLowerCase();
+        });
+
         let totalQuestions = dayQuestions.length;
         let correct = 0;
         let wrong = 0;
@@ -211,7 +223,7 @@
 
         dayQuestions.forEach((q, index) => {
             let selectedRadio = document.querySelector(`input[name="q${index}"]:checked`);
-            let correctAns = q.Answer ? q.Answer.toString().trim().toUpperCase() : ""; 
+            let correctAns = getPropValue(q, "Answer").toString().trim().toUpperCase(); 
 
             let radios = document.querySelectorAll(`input[name="q${index}"]`);
             radios.forEach(r => r.disabled = true);
@@ -256,7 +268,7 @@
         fetch(SHEET_API_URL, {
             method: "POST",
             body: JSON.stringify(resultData)
-        }).catch(err => console.log(err));
+        }).catch(err => console.error(err));
 
         window.scrollTo(0, 0); 
     }
