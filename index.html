@@ -487,29 +487,31 @@
             };
 
             // Fetch API se data bhejna (CORS Error Fix)
+                        // Google Sheet me data bhejne ka 100% working tarika
             fetch(GOOGLE_SHEET_URL, {
                 method: "POST",
-                mode: "no-cors",
                 headers: {
-                    "Content-Type": "application/json"
+                    // 'application/json' block ho jata hai, isliye hum 'text/plain' use karenge
+                    "Content-Type": "text/plain;charset=utf-8"
                 },
                 body: JSON.stringify(resultData)
             }).then(response => {
-                // Background me data send ho jayega
+                // Data successfully chala gaya
                 document.getElementById('loadingOverlay').style.display = "none";
                 document.getElementById('finalScoreText').innerText = `Score: ${score} / ${activeQuestionsData.length}`;
                 document.getElementById('detailedStatsText').innerHTML = `<span style="color: green;">Correct: ${correct}</span> &nbsp;|&nbsp; <span style="color: red;">Wrong: ${wrong}</span> &nbsp;|&nbsp; <span style="color: orange;">Skipped: ${unattempted}</span>`;
                 document.getElementById('solutionsContainer').innerHTML = solutionsHtml;
                 switchView('quiz-result-view');
             }).catch(error => {
-                // Agar internet band ho tabhi error aayegi
+                // Agar internet band ho
                 document.getElementById('loadingOverlay').style.display = "none";
+                alert("कृपया अपना इंटरनेट कनेक्शन चेक करें।");
+                
                 document.getElementById('finalScoreText').innerText = `Score: ${score} / ${activeQuestionsData.length}`;
                 document.getElementById('detailedStatsText').innerHTML = `<span style="color: green;">Correct: ${correct}</span> &nbsp;|&nbsp; <span style="color: red;">Wrong: ${wrong}</span> &nbsp;|&nbsp; <span style="color: orange;">Skipped: ${unattempted}</span>`;
                 document.getElementById('solutionsContainer').innerHTML = solutionsHtml;
                 switchView('quiz-result-view');
             });
-
         }
     </script>
 </body>
