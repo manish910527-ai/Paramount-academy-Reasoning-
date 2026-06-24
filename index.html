@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Paramount Academy Khandwa</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Header -->
+
+<header class="header">
+
+    <h1>PARAMOUNT ACADEMY</h1>
+
+    <h2>KHANDWA</h2>
+
+    <p>Reasoning By Manish Sir</p>
+
+</header>
+
+<!-- Banner -->
+
+<section class="banner">
+
+    <img src="banner.jpg" alt="Academy Banner">
+
+</section>
+
+<!-- Hero -->
+
+<section class="hero">
+
+    <h2>60 Days Railway + MP Police PYQ Program</h2>
+
+    <p>1000+ Previous Year Questions</p>
+
+</section>
+
+<!-- Navigation -->
+
+<div class="nav-buttons">
+
+    <button onclick="showSection('registerSection')">
+        Student Registration
+    </button>
+
+    <button onclick="showSection('loginSection')">
+        Student Login
+    </button>
+
+    <button onclick="showSection('adminSection')">
+        Admin Login
+    </button>
+
+</div>
+
+<!-- Registration -->
+
+<section id="registerSection" class="card hidden">
+
+    <h3>Student Registration</h3>
+
+    <input type="text" id="regName" placeholder="Full Name">
+
+    <input type="tel" id="regMobile" placeholder="Mobile Number">
+
+    <input type="password" id="regPassword" placeholder="Password">
+
+    <button id="registerBtn">
+        Register
+    </button>
+
+</section>
+
+<!-- Student Login -->
+
+<section id="loginSection" class="card hidden">
+
+    <h3>Student Login</h3>
+
+    <input type="tel" id="loginMobile" placeholder="Mobile Number">
+
+    <input type="password" id="loginPassword" placeholder="Password">
+
+    <button id="loginBtn">
+        Login
+    </button>
+
+</section>
+
+<!-- Admin Login -->
+
+<section id="adminSection" class="card hidden">
+
+    <h3>Admin Login</h3>
+
+    <input type="text" id="adminUser" placeholder="Username">
+
+    <input type="password" id="adminPassword" placeholder="Password">
+
+    <button id="adminLoginBtn">
+        Admin Login
+    </button>
+
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script src="firebase-config.js"></script>
+
+<script src="app.js"></script>
+<h1 id="test123">TEST WORKING</h1>
+</body>
+</html>

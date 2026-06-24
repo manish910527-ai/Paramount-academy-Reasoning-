@@ -1,0 +1,322 @@
+/* ==========================
+   GLOBAL
+========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    color:#222;
+    min-height:100vh;
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+.header{
+    background:#0b1f3a;
+    color:#fff;
+    text-align:center;
+    padding:25px 15px;
+}
+
+.header h1{
+    font-size:28px;
+    font-weight:700;
+}
+
+.header h2{
+    color:#f4c542;
+    margin-top:5px;
+    font-size:20px;
+}
+
+.header p{
+    margin-top:8px;
+    font-size:15px;
+}
+
+/* ==========================
+   BANNER
+========================== */
+
+.banner{
+    width:100%;
+    padding:10px;
+}
+
+.banner img{
+    width:100%;
+    border-radius:12px;
+    object-fit:cover;
+}
+
+/* ==========================
+   HERO
+========================== */
+
+.hero{
+    text-align:center;
+    padding:20px;
+}
+
+.hero h2{
+    color:#0b1f3a;
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#555;
+}
+
+/* ==========================
+   BUTTONS
+========================== */
+
+.nav-buttons{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    padding:15px;
+}
+
+.nav-buttons button{
+    background:#0b1f3a;
+    color:white;
+    border:none;
+    padding:14px;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.nav-buttons button:hover{
+    background:#163764;
+}
+
+/* ==========================
+   CARD
+========================== */
+
+.card{
+    background:white;
+    margin:15px;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+.card h3{
+    text-align:center;
+    margin-bottom:15px;
+    color:#0b1f3a;
+}
+
+/* ==========================
+   INPUT
+========================== */
+
+.card input{
+    width:100%;
+    padding:12px;
+    margin-bottom:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    outline:none;
+    font-size:15px;
+}
+
+.card input:focus{
+    border-color:#0b1f3a;
+}
+
+/* ==========================
+   FORM BUTTON
+========================== */
+
+.card button{
+    width:100%;
+    padding:13px;
+    background:#f4c542;
+    color:#0b1f3a;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.card button:hover{
+    opacity:.9;
+}
+
+/* ==========================
+   HIDE SECTIONS
+========================== */
+
+.hidden{
+    display:none;
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media(max-width:600px){
+
+    .header h1{
+        font-size:22px;
+    }
+
+    .hero h2{
+        font-size:18px;
+    }
+
+}
+/* ==========================
+DASHBOARD
+========================== */
+
+.dashboard-container{
+    padding:15px;
+}
+
+.student-card{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:15px;
+    text-align:center;
+    box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+.program-title{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+#dayContainer{
+    display:grid;
+    grid-template-columns:
+    repeat(2,1fr);
+    gap:10px;
+}
+
+.day-card{
+    background:#0b1f3a;
+    color:#fff;
+    border:none;
+    padding:15px;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+#logoutBtn{
+    width:100%;
+    margin-top:20px;
+    background:#f4c542;
+    color:#0b1f3a;
+    border:none;
+    padding:14px;
+    border-radius:10px;
+    font-weight:600;
+}
+.back-btn{
+display:inline-block;
+margin-bottom:20px;
+font-size:18px;
+text-decoration:none;
+color:#0b1f3a;
+font-weight:600;
+}
+
+.topic-card{
+
+background:linear-gradient(
+135deg,
+#0b1f3a,
+#163764
+);
+
+color:white;
+
+padding:25px;
+
+border-radius:18px;
+
+margin-bottom:20px;
+
+box-shadow:
+0 8px 25px rgba(0,0,0,.2);
+
+}
+
+.topic-card h2{
+margin-bottom:8px;
+}
+
+.action-card{
+
+background:white;
+
+border-radius:18px;
+
+padding:20px;
+
+margin-bottom:18px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,.1);
+
+}
+
+.pdf-card{
+border-left:5px solid #3b82f6;
+}
+
+.test-card{
+border-left:5px solid #22c55e;
+}
+
+.action-card h3{
+margin-bottom:6px;
+}
+
+.action-card p{
+color:#666;
+}
+
+.action-card button{
+
+border:none;
+
+background:#0b1f3a;
+
+color:white;
+
+padding:12px 20px;
+
+border-radius:12px;
+
+font-weight:600;
+
+}
+
+.test-card button{
+background:#22c55e;
+}
