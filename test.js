@@ -93,9 +93,10 @@ try{
     });
 
     document
-    .getElementById(
-        "submitTestBtn"
-    )
+.getElementById(
+    "submitTestBtn"
+)
+.onclick = async function(){
     .onclick = function(){
 
         let correct = 0;
