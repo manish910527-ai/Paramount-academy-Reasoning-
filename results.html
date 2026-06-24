@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>My Results</title>
+
+<link rel="stylesheet"
+href="style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+<h1>
+
+My Results
+
+</h1>
+
+</header>
+
+<div class="dashboard-container">
+
+<div class="card">
+
+<h3 id="studentName">
+
+Loading...
+
+</h3>
+
+<p id="testCount">
+
+Tests Given : 0
+
+</p>
+
+<p id="avgScore">
+
+Average Score : 0
+
+</p>
+
+<p id="bestScore">
+
+Best Score : 0
+
+</p>
+
+</div>
+
+<div id="resultsContainer">
+
+Loading Results...
+
+</div>
+
+<br>
+
+<button onclick="window.location.href='dashboard.html'">
+
+⬅ Back Dashboard
+
+</button>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script src="firebase-config.js"></script>
+
+<script src="results.js"></script>
+
+</body>
+
+</html>
