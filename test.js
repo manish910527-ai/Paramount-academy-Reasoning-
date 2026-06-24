@@ -1,18 +1,6 @@
-console.log("DB =", window.db);
 window.onload = async function(){
 
 try{
-
-    console.log("TEST PAGE");
-
-    if(typeof db === "undefined"){
-
-        alert(
-            "Firebase DB Not Loaded"
-        );
-
-        return;
-    }
 
     const params =
         new URLSearchParams(
@@ -23,7 +11,7 @@ try{
         params.get("day");
 
     const snapshot =
-        await window.db.ref(
+        await db.ref(
             "tests/day" + day
         ).once("value");
 
@@ -37,7 +25,7 @@ try{
     if(!snapshot.exists()){
 
         container.innerHTML =
-        "<h3>No Questions Found</h3>";
+            "<h3>No Questions Found</h3>";
 
         return;
     }
@@ -50,39 +38,50 @@ try{
         const div =
             document.createElement("div");
 
-        div.className =
-            "card";
+        div.className = "card";
 
         div.innerHTML = `
 
-        <p><b>${q.question}</b></p>
+        <p>
+            <b>${q.question}</b>
+        </p>
 
         <label>
-        <input type="radio"
-        name="${child.key}"
-        value="A">
-        ${q.A}
-        </label><br>
+            <input
+            type="radio"
+            name="${child.key}"
+            value="A">
+            ${q.A}
+        </label>
+
+        <br>
 
         <label>
-        <input type="radio"
-        name="${child.key}"
-        value="B">
-        ${q.B}
-        </label><br>
+            <input
+            type="radio"
+            name="${child.key}"
+            value="B">
+            ${q.B}
+        </label>
+
+        <br>
 
         <label>
-        <input type="radio"
-        name="${child.key}"
-        value="C">
-        ${q.C}
-        </label><br>
+            <input
+            type="radio"
+            name="${child.key}"
+            value="C">
+            ${q.C}
+        </label>
+
+        <br>
 
         <label>
-        <input type="radio"
-        name="${child.key}"
-        value="D">
-        ${q.D}
+            <input
+            type="radio"
+            name="${child.key}"
+            value="D">
+            ${q.D}
         </label>
 
         <hr>
@@ -94,8 +93,10 @@ try{
     });
 
     document
-    .getElementById("submitTestBtn")
-    .onclick = async function(){
+    .getElementById(
+        "submitTestBtn"
+    )
+    .onclick = function(){
 
         let correct = 0;
         let wrong = 0;
@@ -107,7 +108,7 @@ try{
 
             const selected =
                 document.querySelector(
-                    `input[name="${child.key}"]:checked`
+                    \`input[name="${child.key}"]:checked\`
                 );
 
             if(selected){
@@ -133,52 +134,9 @@ try{
             correct -
             (wrong * 0.25);
 
-        const studentId =
-            localStorage.getItem(
-                "studentId"
-            );
-
-        const studentName =
-            localStorage.getItem(
-                "studentName"
-            );
-
-        await window.db.ref(
-
-            "results/" +
-            studentId +
-            "/day" +
-            day
-
-        ).set({
-
-            studentId:
-            studentId,
-
-            studentName:
-            studentName,
-
-            day:
-            day,
-
-            correct:
-            correct,
-
-            wrong:
-            wrong,
-
-            score:
-            score,
-
-            date:
-            new Date()
-            .toLocaleString()
-
-        });
-
         alert(
 
-`Result Saved
+`Result
 
 Correct : ${correct}
 
