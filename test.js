@@ -97,87 +97,87 @@ try{
     "submitTestBtn"
 )
 .onclick = async function(){
-    .onclick = function(){
 
-        let correct = 0;
-        let wrong = 0;
+    let correct = 0;
+    let wrong = 0;
 
-        snapshot.forEach(child => {
+    snapshot.forEach(child => {
 
-            const q =
-                child.val();
+        const q =
+            child.val();
 
-            const selected =
-                document.querySelector(
-                    \`input[name="${child.key}"]:checked\`
-                );
+        const selected =
+            document.querySelector(
+                `input[name="${child.key}"]:checked`
+            );
 
-            if(selected){
+        if(selected){
 
-                if(
-                    selected.value ===
-                    q.answer
-                ){
+            if(
+                selected.value ===
+                q.answer
+            ){
 
-                    correct++;
+                correct++;
 
-                }else{
+            }else{
 
-                    wrong++;
-
-                }
+                wrong++;
 
             }
 
-        });
+        }
 
-        const score =
-            correct -
-            (wrong * 0.25);
-            const studentId =
-localStorage.getItem(
-"studentId"
-);
+    });
 
-const studentName =
-localStorage.getItem(
-"studentName"
-);
+    const score =
+        correct -
+        (wrong * 0.25);
 
-await db.ref(
+    const studentId =
+        localStorage.getItem(
+            "studentId"
+        );
 
-"results/" +
-studentId +
-"/day" +
-day
+    const studentName =
+        localStorage.getItem(
+            "studentName"
+        );
 
-).set({
+    await db.ref(
 
-studentId:
-studentId,
+        "results/" +
+        studentId +
+        "/day" +
+        day
 
-studentName:
-studentName,
+    ).set({
 
-day:
-day,
+        studentId:
+        studentId,
 
-correct:
-correct,
+        studentName:
+        studentName,
 
-wrong:
-wrong,
+        day:
+        day,
 
-score:
-score,
+        correct:
+        correct,
 
-date:
-new Date()
-.toLocaleString()
+        wrong:
+        wrong,
 
-});
+        score:
+        score,
 
-        alert(
+        date:
+        new Date()
+        .toLocaleString()
+
+    });
+
+    alert(
 
 `Result Saved
 
@@ -187,9 +187,9 @@ Wrong : ${wrong}
 
 Score : ${score}`
 
-);
+    );
 
-    };
+};
 
 }
 catch(error){
