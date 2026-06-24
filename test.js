@@ -179,7 +179,7 @@ new Date()
 
         alert(
 
-`Result
+`Result Saved
 
 Correct : ${correct}
 
@@ -187,7 +187,7 @@ Wrong : ${wrong}
 
 Score : ${score}`
 
-        );
+);
 
     };
 
