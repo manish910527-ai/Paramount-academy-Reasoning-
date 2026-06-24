@@ -134,6 +134,48 @@ try{
         const score =
             correct -
             (wrong * 0.25);
+            const studentId =
+localStorage.getItem(
+"studentId"
+);
+
+const studentName =
+localStorage.getItem(
+"studentName"
+);
+
+await db.ref(
+
+"results/" +
+studentId +
+"/day" +
+day
+
+).set({
+
+studentId:
+studentId,
+
+studentName:
+studentName,
+
+day:
+day,
+
+correct:
+correct,
+
+wrong:
+wrong,
+
+score:
+score,
+
+date:
+new Date()
+.toLocaleString()
+
+});
 
         alert(
 
