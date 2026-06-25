@@ -1,3 +1,5 @@
+console.log("Dashboard Loaded");
+console.log(typeof db);
 window.onload = async function(){
 
 // ---------- Security ----------
