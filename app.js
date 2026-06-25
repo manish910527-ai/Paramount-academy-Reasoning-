@@ -166,3 +166,15 @@ alert(error.message);
 }
 
 }
+
+async function registerStudent() {
+    alert("Register Clicked");
+}
+
+async function loginStudent() {
+    alert("Login Clicked");
+}
+
+function adminLogin() {
+    alert("Admin Clicked");
+   }
