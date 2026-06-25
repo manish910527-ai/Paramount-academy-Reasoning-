@@ -1,83 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Admin Dashboard</title>
-
-<link rel="stylesheet" href="style.css">
-
-</head>
-
-<body>
-
-<header class="header">
-
-<h1>PARAMOUNT ACADEMY</h1>
-
-<h2>Admin Dashboard</h2>
-
-<p>Reasoning By Manish Sir</p>
-
-</header>
-
-<div class="dashboard-container">
-
-<div class="card">
-
-<h2>Welcome Manish Sir 👋</h2>
-
-<p>Manage Complete 60 Days Program</p>
-
-</div>
-
-<button class="admin-btn"
+<title>Admin Dashboard</title><link rel="stylesheet"
+href="style.css"></head><body><header class="header"><h1>PARAMOUNT ACADEMY</h1><h2>ADMIN DASHBOARD</h2><p>Reasoning By Manish Sir</p></header><div class="dashboard-container"><div class="card"><h2>👋 Welcome Manish Sir</h2><p>Manage Your Complete 60 Days Program</p></div><div class="card"><h3>📊 Dashboard Overview</h3><p><b>👨‍🎓 Total Students :</b> <span id="totalStudents">0</span></p><p><b>📚 Total Days Ready :</b> <span id="totalDays">60</span></p><p><b>📝 Total Tests :</b> <span id="totalTests">0</span></p><p><b>📈 Total Results :</b> <span id="totalResults">0</span></p></div><button class="admin-btn"
 onclick="window.location.href='content-upload.html'">
 
 📄 Content Manager
 
-</button>
-
-<button class="admin-btn"
+</button><button class="admin-btn"
 onclick="window.location.href='admin-upload.html'">
 
 📝 Test Manager
 
-</button>
-
-<button class="admin-btn">
-
-👨‍🎓 Student Manager
-
-</button>
-
-<button class="admin-btn">
+</button><button class="admin-btn"
+onclick="window.location.href='results.html'">
 
 📊 Results Manager
 
-</button>
+</button><button class="admin-btn">👨‍🎓 Student Manager
 
-<button class="admin-btn">
+</button><button class="admin-btn">⚙️ Settings
 
-⚙ Settings
-
-</button>
-
-<button class="logout-btn"
-id="logoutBtn">
+</button><button
+id="logoutBtn"
+class="logout-btn">
 
 🚪 Logout
 
-</button>
-
-</div>
-
-<script src="admin-dashboard.js"></script>
-
-</body>
-
-</html>
+</button></div><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script><script src="firebase-config.js"></script><script src="admin-dashboard.js"></script></body></html>
