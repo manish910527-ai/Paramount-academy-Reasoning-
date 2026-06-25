@@ -1,271 +1,92 @@
-/* =====================================
-PARAMOUNT ACADEMY
-APP.JS v2.0 STABLE
-PART 1
-===================================== */
+/* =========================================
+   PARAMOUNT ACADEMY
+   app.js v2.0
+   PART 1 (CORE)
+========================================= */
 
-window.onload = function(){
+window.onload = function () {
 
-console.log("App Started");
+    console.log("App Started");
 
-// Firebase Check
+    // Firebase Check
+    if (typeof firebase === "undefined") {
+        alert("Firebase Library Not Loaded");
+        return;
+    }
 
-if(typeof firebase === "undefined"){
+    if (typeof db === "undefined") {
+        alert("Firebase Database Not Ready");
+        return;
+    }
 
-alert("Firebase Library Not Loaded");
+    console.log("Firebase Ready");
 
-return;
+    // Buttons
+    const registerBtn = document.getElementById("registerBtn");
+    const loginBtn = document.getElementById("loginBtn");
+    const adminBtn = document.getElementById("adminLoginBtn");
 
-}
+    if (registerBtn) {
+        registerBtn.addEventListener("click", registerStudent);
+    }
 
-if(typeof db === "undefined"){
+    if (loginBtn) {
+        loginBtn.addEventListener("click", loginStudent);
+    }
 
-alert("Database Not Ready");
-
-return;
-
-}
-
-console.log("Firebase Ready");
-
-// Hide All Sections
-
-hideAllSections();
-
-// Navigation Buttons
-
-window.showSection = function(sectionId){
-
-hideAllSections();
-
-const section =
-document.getElementById(sectionId);
-
-if(section){
-
-section.classList.remove("hidden");
-
-}
+    if (adminBtn) {
+        adminBtn.addEventListener("click", adminLogin);
+    }
 
 };
 
-// Student Register Button
 
-const registerBtn =
-document.getElementById("registerBtn");
+// ===============================
+// Navigation
+// ===============================
 
-if(registerBtn){
+function showSection(sectionId){
 
-registerBtn.onclick = registerStudent;
+    document
+    .querySelectorAll(".card")
+    .forEach(card=>{
 
-}
+        card.classList.add("hidden");
 
-// Student Login Button
+    });
 
-const loginBtn =
-document.getElementById("loginBtn");
+    const section =
+    document.getElementById(sectionId);
 
-if(loginBtn){
+    if(section){
 
-loginBtn.onclick = loginStudent;
+        section.classList.remove("hidden");
 
-}
-
-// Admin Login Button
-
-const adminBtn =
-document.getElementById("adminLoginBtn");
-
-if(adminBtn){
-
-adminBtn.onclick = adminLogin;
+    }
 
 }
 
-};
+window.showSection = showSection;
 
-// =====================================
-// Hide Sections
-// =====================================
 
-function hideAllSections(){
-
-const sections =
-document.querySelectorAll(".card");
-
-sections.forEach(section=>{
-
-section.classList.add("hidden");
-
-});
-
-}
-
-// =====================================
+// ===============================
 // Empty Functions
-// Part 2 & Part 3
-// =====================================
+// ===============================
 
 async function registerStudent(){
 
-console.log("Register Clicked");
+    console.log("Register Button Clicked");
 
 }
 
 async function loginStudent(){
 
-console.log("Login Clicked");
+    console.log("Login Button Clicked");
 
 }
 
 function adminLogin(){
 
-console.log("Admin Login Clicked");
-
-}
-
-async function registerStudent(){
-
-try{
-
-const name =
-document.getElementById("regName").value.trim();
-
-const mobile =
-document.getElementById("regMobile").value.trim();
-
-const password =
-document.getElementById("regPassword").value.trim();
-
-if(!name || !mobile || !password){
-
-alert("Please fill all fields");
-
-return;
-
-}
-
-const snapshot =
-await db.ref("users").orderByChild("mobile").equalTo(mobile).once("value");
-
-if(snapshot.exists()){
-
-alert("Mobile Number Already Registered");
-
-return;
-
-}
-
-const studentId =
-"STU" + Date.now();
-
-await db.ref("users/" + studentId).set({
-
-studentId: studentId,
-
-name: name,
-
-mobile: mobile,
-
-password: password,
-
-date: new Date().toLocaleString()
-
-});
-
-localStorage.setItem("studentId", studentId);
-
-localStorage.setItem("studentName", name);
-
-alert("Registration Successful");
-
-window.location.href = "dashboard.html";
-
-}catch(error){
-
-console.error(error);
-
-alert(error.message);
-
-}
-
-}
-
-async function loginStudent(){
-
-try{
-
-const mobile =
-document.getElementById("loginMobile").value.trim();
-
-const password =
-document.getElementById("loginPassword").value.trim();
-
-if(!mobile || !password){
-
-alert("Please Enter Mobile & Password");
-
-return;
-
-}
-
-const snapshot =
-await db.ref("users")
-.orderByChild("mobile")
-.equalTo(mobile)
-.once("value");
-
-if(!snapshot.exists()){
-
-alert("Student Not Found");
-
-return;
-
-}
-
-let loginSuccess = false;
-
-snapshot.forEach(child=>{
-
-const user = child.val();
-
-if(user.password === password){
-
-localStorage.setItem(
-"studentId",
-user.studentId
-);
-
-localStorage.setItem(
-"studentName",
-user.name
-);
-
-loginSuccess = true;
-
-}
-
-});
-
-if(loginSuccess){
-
-alert("Login Successful");
-
-window.location.href =
-"dashboard.html";
-
-}else{
-
-alert("Wrong Password");
-
-}
-
-}catch(error){
-
-console.error(error);
-
-alert(error.message);
-
-}
+    console.log("Admin Button Clicked");
 
 }
