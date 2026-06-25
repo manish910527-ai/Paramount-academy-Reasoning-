@@ -218,9 +218,9 @@ if(adminBtn){
     );
 
     // Open Admin Dashboard
-    window.location.href =
-    "admin-dashboard.html";
-
+    window.location.replace(
+    "admin-dashboard.html"
+);
 }else{
 
     alert(
