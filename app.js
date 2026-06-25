@@ -74,7 +74,7 @@ window.showSection = showSection;
 // ===============================
 
 async function registerStudent(){
-
+  alert("Register Function Started");
 try{
 
 const name =
