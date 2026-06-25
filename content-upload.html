@@ -1,104 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
+window.onload = function () {
 
-<head>
+    document
+        .getElementById("saveContentBtn")
+        .onclick = async function () {
 
-<meta charset="UTF-8">
+        try {
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+            const day =
+                document
+                .getElementById("dayNumber")
+                .value.trim();
 
-<title>Content Upload</title>
+            const title =
+                document
+                .getElementById("title")
+                .value.trim();
 
-<link rel="stylesheet"
-href="style.css">
+            const pdf =
+                document
+                .getElementById("pdfLink")
+                .value.trim();
 
-</head>
+            const image =
+                document
+                .getElementById("imageLink")
+                .value.trim();
 
-<body>
+            if (!day || !title || !pdf || !image) {
 
-<header class="header">
+                alert("Please fill all fields.");
 
-<h1>
+                return;
+            }
 
-Content Upload
+            await db.ref("content/day" + day).set({
 
-</h1>
+                title: title,
 
-<p>
+                pdf: pdf,
 
-Reasoning By Manish Sir
+                image: image
 
-</p>
+            });
 
-</header>
+            alert("Content Saved Successfully");
 
-<div class="dashboard-container">
+            document.getElementById("dayNumber").value = "";
+            document.getElementById("title").value = "";
+            document.getElementById("pdfLink").value = "";
+            document.getElementById("imageLink").value = "";
 
-<div class="card">
+        } catch (error) {
 
-<h2>
+            console.error(error);
 
-Upload Day Content
+            alert(error.message);
 
-</h2>
+        }
 
-<input
-type="number"
-id="dayNumber"
-placeholder="Day Number (1-60)">
+    };
 
-<br><br>
-
-<input
-type="text"
-id="title"
-placeholder="Topic Title">
-
-<br><br>
-
-<input
-type="text"
-id="pdfLink"
-placeholder="PDF Link">
-
-<br><br>
-
-<input
-type="text"
-id="imageLink"
-placeholder="Image Link">
-
-<br><br>
-
-<button
-id="saveContentBtn">
-
-Save Content
-
-</button>
-
-</div>
-
-<br>
-
-<button
-onclick="window.location.href='dashboard.html'">
-
-⬅ Back Dashboard
-
-</button>
-
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
-<script src="firebase-config.js"></script>
-
-<script src="content-upload.js"></script>
-
-</body>
-
-</html>
+};
