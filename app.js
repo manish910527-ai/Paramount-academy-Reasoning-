@@ -1,193 +1,271 @@
-/* ===================================
-   PARAMOUNT ACADEMY
-   APP.JS
-   VERSION 1.0 STABLE
-=================================== */
+/* =====================================
+PARAMOUNT ACADEMY
+APP.JS v2.0 STABLE
+PART 1
+===================================== */
 
-// -------------------------------
+window.onload = function(){
+
+console.log("App Started");
+
 // Firebase Check
-// -------------------------------
 
-window.onload = function () {
+if(typeof firebase === "undefined"){
 
-    console.log("App Started");
+alert("Firebase Library Not Loaded");
 
-    if (typeof firebase === "undefined") {
+return;
 
-        alert("Firebase Library Not Loaded");
+}
 
-        return;
+if(typeof db === "undefined"){
 
-    }
+alert("Database Not Ready");
 
-    if (typeof db === "undefined") {
+return;
 
-        alert("Firebase Database Not Ready");
+}
 
-        return;
+console.log("Firebase Ready");
 
-    }
+// Hide All Sections
 
-    console.log("Firebase Ready");
+hideAllSections();
 
-    initializeApp();
+// Navigation Buttons
+
+window.showSection = function(sectionId){
+
+hideAllSections();
+
+const section =
+document.getElementById(sectionId);
+
+if(section){
+
+section.classList.remove("hidden");
+
+}
 
 };
 
-
-// -------------------------------
-// Main App
-// -------------------------------
-
-function initializeApp() {
-
-    console.log("Initializing App...");
-
-    showLoginSection();
-
-}
-
-
-// -------------------------------
-// Show Login
-// -------------------------------
-
-function showLoginSection() {
-
-    const loginSection =
-        document.getElementById("loginSection");
-
-    if (loginSection) {
-
-        loginSection.style.display = "block";
-
-    }
-
-}
-
-
-// -------------------------------
-// Show Section
-// -------------------------------
-
-function showSection(id) {
-
-    document
-        .querySelectorAll(".section")
-        .forEach(section => {
-
-            section.style.display = "none";
-
-        });
-
-    const page =
-        document.getElementById(id);
-
-    if (page) {
-
-        page.style.display = "block";
-
-    }
-
-}
-/* ===================================
-   PART 2
-   STUDENT REGISTER + LOGIN
-=================================== */
+// Student Register Button
 
 const registerBtn =
 document.getElementById("registerBtn");
 
 if(registerBtn){
 
-registerBtn.onclick = async function(){
-
-const name =
-document.getElementById("studentName").value.trim();
-
-const mobile =
-document.getElementById("studentMobile").value.trim();
-
-if(name==="" || mobile===""){
-
-alert("Please Fill All Details");
-
-return;
+registerBtn.onclick = registerStudent;
 
 }
 
-const studentId =
-"STU"+Date.now();
-
-await db.ref("users/"+studentId).set({
-
-studentId:studentId,
-
-name:name,
-
-mobile:mobile,
-
-date:new Date().toLocaleString()
-
-});
-
-localStorage.setItem("studentId",studentId);
-
-localStorage.setItem("studentName",name);
-
-alert("Registration Successful");
-
-window.location.href="dashboard.html";
-
-};
-
-}
-
-
-/* ===================================
-   STUDENT LOGIN
-=================================== */
+// Student Login Button
 
 const loginBtn =
-document.getElementById("studentLoginBtn");
+document.getElementById("loginBtn");
 
 if(loginBtn){
 
-loginBtn.onclick = async function(){
+loginBtn.onclick = loginStudent;
 
-const studentId =
-document.getElementById("studentId").value.trim();
+}
 
-if(studentId===""){
+// Admin Login Button
 
-alert("Enter Student ID");
+const adminBtn =
+document.getElementById("adminLoginBtn");
+
+if(adminBtn){
+
+adminBtn.onclick = adminLogin;
+
+}
+
+};
+
+// =====================================
+// Hide Sections
+// =====================================
+
+function hideAllSections(){
+
+const sections =
+document.querySelectorAll(".card");
+
+sections.forEach(section=>{
+
+section.classList.add("hidden");
+
+});
+
+}
+
+// =====================================
+// Empty Functions
+// Part 2 & Part 3
+// =====================================
+
+async function registerStudent(){
+
+console.log("Register Clicked");
+
+}
+
+async function loginStudent(){
+
+console.log("Login Clicked");
+
+}
+
+function adminLogin(){
+
+console.log("Admin Login Clicked");
+
+}
+
+async function registerStudent(){
+
+try{
+
+const name =
+document.getElementById("regName").value.trim();
+
+const mobile =
+document.getElementById("regMobile").value.trim();
+
+const password =
+document.getElementById("regPassword").value.trim();
+
+if(!name || !mobile || !password){
+
+alert("Please fill all fields");
 
 return;
 
 }
 
 const snapshot =
-await db.ref("users/"+studentId).once("value");
+await db.ref("users").orderByChild("mobile").equalTo(mobile).once("value");
 
 if(snapshot.exists()){
 
-const user =
-snapshot.val();
+alert("Mobile Number Already Registered");
 
-localStorage.setItem("studentId",user.studentId);
-
-localStorage.setItem("studentName",user.name);
-
-alert("Login Successful");
-
-window.location.href="dashboard.html";
-
-}else{
-
-alert("Invalid Student ID");
+return;
 
 }
 
-};
+const studentId =
+"STU" + Date.now();
+
+await db.ref("users/" + studentId).set({
+
+studentId: studentId,
+
+name: name,
+
+mobile: mobile,
+
+password: password,
+
+date: new Date().toLocaleString()
+
+});
+
+localStorage.setItem("studentId", studentId);
+
+localStorage.setItem("studentName", name);
+
+alert("Registration Successful");
+
+window.location.href = "dashboard.html";
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
+
+}
+
+async function loginStudent(){
+
+try{
+
+const mobile =
+document.getElementById("loginMobile").value.trim();
+
+const password =
+document.getElementById("loginPassword").value.trim();
+
+if(!mobile || !password){
+
+alert("Please Enter Mobile & Password");
+
+return;
+
+}
+
+const snapshot =
+await db.ref("users")
+.orderByChild("mobile")
+.equalTo(mobile)
+.once("value");
+
+if(!snapshot.exists()){
+
+alert("Student Not Found");
+
+return;
+
+}
+
+let loginSuccess = false;
+
+snapshot.forEach(child=>{
+
+const user = child.val();
+
+if(user.password === password){
+
+localStorage.setItem(
+"studentId",
+user.studentId
+);
+
+localStorage.setItem(
+"studentName",
+user.name
+);
+
+loginSuccess = true;
+
+}
+
+});
+
+if(loginSuccess){
+
+alert("Login Successful");
+
+window.location.href =
+"dashboard.html";
+
+}else{
+
+alert("Wrong Password");
+
+}
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
 
 }
