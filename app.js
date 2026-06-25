@@ -203,19 +203,31 @@ if(adminBtn){
                 document.getElementById("adminPassword").value.trim();
 
             if(
-                username === "manishsir" &&
-                password === "Paramount@2026"
-            ){
+    username === "manishsir" &&
+    password === "Paramount@2026"
+){
 
-                alert(
-                    "Admin Login Successful"
-                );
+    // Admin Login Save
+    localStorage.setItem(
+        "adminLoggedIn",
+        "true"
+    );
 
-            }else{
+    alert(
+        "Admin Login Successful"
+    );
 
-                alert(
-                    "Invalid Admin Credentials"
-                );
+    // Open Admin Dashboard
+    window.location.href =
+    "admin-dashboard.html";
+
+}else{
+
+    alert(
+        "Invalid Admin Credentials"
+    );
+
+}
             }
 
         }
