@@ -1,63 +1,89 @@
-window.onload = function () {
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    document
-        .getElementById("saveContentBtn")
-        .onclick = async function () {
+<title>Content Manager</title><link rel="stylesheet"
+href="style.css"></head><body><header class="header"><h1>PARAMOUNT ACADEMY</h1><h2>Content Manager</h2><p>Reasoning By Manish Sir</p></header><div class="dashboard-container"><div class="card"><h2>📚 Day Content Manager</h2><p>Manage PDF, Image & Notes</p><input
+type="number"
+id="dayNumber"
+placeholder="Enter Day Number (1-60)">
 
-        try {
+<br><br>
 
-            const day =
-                document
-                .getElementById("dayNumber")
-                .value.trim();
+<input
+type="text"
+id="title"
+placeholder="Topic Title">
 
-            const title =
-                document
-                .getElementById("title")
-                .value.trim();
+<br><br>
 
-            const pdf =
-                document
-                .getElementById("pdfLink")
-                .value.trim();
+<input
+type="text"
+id="pdfLink"
+placeholder="PDF Link">
 
-            const image =
-                document
-                .getElementById("imageLink")
-                .value.trim();
+<br><br>
 
-            if (!day || !title || !pdf || !image) {
+<input
+type="text"
+id="imageLink"
+placeholder="Image Link">
 
-                alert("Please fill all fields.");
+<br><br>
 
-                return;
-            }
+<button
+id="saveContentBtn"
+class="admin-btn">
 
-            await db.ref("content/day" + day).set({
+💾 Save Content
 
-                title: title,
+</button><br><br>
 
-                pdf: pdf,
+<button
+id="previewBtn"
+class="admin-btn">
 
-                image: image
+👀 Preview Content
 
-            });
+</button><br><br>
 
-            alert("Content Saved Successfully");
+<button
+id="updateBtn"
+class="admin-btn">
 
-            document.getElementById("dayNumber").value = "";
-            document.getElementById("title").value = "";
-            document.getElementById("pdfLink").value = "";
-            document.getElementById("imageLink").value = "";
+🔄 Update Content
 
-        } catch (error) {
+</button><br><br>
 
-            console.error(error);
+<button
+id="deleteBtn"
+class="logout-btn">
 
-            alert(error.message);
+🗑 Delete Content
 
-        }
+</button></div><br><div class="card"><h3>Preview</h3><p id="previewTitle">No Preview
 
-    };
+</p><img
+id="previewImage"
+src=""
+style="
+width:100%;
+border-radius:12px;
+display:none;
+">
 
-};
+<br><br>
+
+<button
+id="openPdfBtn"
+class="admin-btn"
+style="display:none;">
+
+📄 Open PDF
+
+</button></div><br><button
+class="admin-btn"
+onclick="window.location.href='admin-dashboard.html'">
+
+⬅ Back Admin Dashboard
+
+</button></div><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script><script src="firebase-config.js"></script><script src="content-upload.js"></script></body></html>
