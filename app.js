@@ -75,18 +75,94 @@ window.showSection = showSection;
 
 async function registerStudent(){
 
-    console.log("Register Button Clicked");
+try{
+
+const name =
+document.getElementById("regName").value.trim();
+
+const mobile =
+document.getElementById("regMobile").value.trim();
+
+const password =
+document.getElementById("regPassword").value.trim();
+
+if(name==="" || mobile==="" || password===""){
+
+alert("Please Fill All Fields");
+
+return;
 
 }
 
-async function loginStudent(){
+// Mobile Check
 
-    console.log("Login Button Clicked");
+const check =
+await db.ref("users")
+.orderByChild("mobile")
+.equalTo(mobile)
+.once("value");
+
+if(check.exists()){
+
+alert("Mobile Already Registered");
+
+return;
 
 }
 
-function adminLogin(){
+// Create Student ID
 
-    console.log("Admin Button Clicked");
+const studentId =
+"STU" + Date.now();
+
+// Save User
+
+await db.ref("users/"+studentId).set({
+
+studentId:studentId,
+
+name:name,
+
+mobile:mobile,
+
+password:password,
+
+date:new Date().toLocaleString()
+
+});
+
+// Save Local Storage
+
+localStorage.setItem(
+"studentId",
+studentId
+);
+
+localStorage.setItem(
+"studentName",
+name
+);
+
+alert("Registration Successful");
+
+// Clear Form
+
+document.getElementById("regName").value="";
+
+document.getElementById("regMobile").value="";
+
+document.getElementById("regPassword").value="";
+
+// Redirect
+
+window.location.href="dashboard.html";
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message);
+
+}
 
 }
