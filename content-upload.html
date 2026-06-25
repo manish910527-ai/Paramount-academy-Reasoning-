@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Content Upload</title>
+
+<link rel="stylesheet"
+href="style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+<h1>
+
+Content Upload
+
+</h1>
+
+<p>
+
+Reasoning By Manish Sir
+
+</p>
+
+</header>
+
+<div class="dashboard-container">
+
+<div class="card">
+
+<h2>
+
+Upload Day Content
+
+</h2>
+
+<input
+type="number"
+id="dayNumber"
+placeholder="Day Number (1-60)">
+
+<br><br>
+
+<input
+type="text"
+id="title"
+placeholder="Topic Title">
+
+<br><br>
+
+<input
+type="text"
+id="pdfLink"
+placeholder="PDF Link">
+
+<br><br>
+
+<input
+type="text"
+id="imageLink"
+placeholder="Image Link">
+
+<br><br>
+
+<button
+id="saveContentBtn">
+
+Save Content
+
+</button>
+
+</div>
+
+<br>
+
+<button
+onclick="window.location.href='dashboard.html'">
+
+⬅ Back Dashboard
+
+</button>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script src="firebase-config.js"></script>
+
+<script src="content-upload.js"></script>
+
+</body>
+
+</html>
